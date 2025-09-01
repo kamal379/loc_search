@@ -7,9 +7,9 @@ import json
 from datetime import datetime
 # --- Google Sheets Setup ---
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds_fetch = st.secrets["gcp_service_account"]
+creds_dict = st.secrets["gcp_service_account"]
 # Convert dict to JSON string if a library expects a file
-creds = json.dumps(creds_fetch)
+creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scopes)
 #creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
 client = gspread.authorize(creds)
 
