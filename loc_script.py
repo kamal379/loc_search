@@ -96,4 +96,5 @@ if enable_fir_filter:
     filtered_df = filtered_df[filtered_df[col_name].apply(lambda x: row_matches_dates(x, start_date, end_date))]
 
 st.subheader("Filtered Results")
+st.write(f"Results found: {len(filtered_df)}")
 st.write(filtered_df)
