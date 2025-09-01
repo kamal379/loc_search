@@ -1,18 +1,20 @@
 import gspread
-from oauth2client.service_account import ServiceAccountCredentials
+from google.oauth2.service_account import Credentials
 import streamlit as st
 import pandas as pd
 import re
 import json
 from datetime import datetime
 # --- Google Sheets Setup ---
-scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds_dict = st.secrets["gcp_service_account"]
-# Convert dict to JSON string if a library expects a file
-creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
-#creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
-client = gspread.authorize(creds)
 
+
+SCOPES = ["https://www.googleapis.com/auth/spreadsheets",
+          "https://www.googleapis.com/auth/drive"]
+
+creds = Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"], scopes=SCOPES
+)
+client = gspread.authorize(creds)
 sheet = client.open("LOC Details").worksheet("Sheet3")
 data = sheet.get_all_records()
 df = pd.DataFrame(data)
